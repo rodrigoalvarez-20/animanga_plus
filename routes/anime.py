@@ -85,7 +85,187 @@ configs = {
             ]
         },
         "anime_details_section": {
-
+            "path": "category",
+            "params": [],
+            "image": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    }
+                ],
+                "tag":"img",
+                "class": "",
+                "attribute": "src"
+            },
+            "title": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    }
+                ],
+                "tag": "h1",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "type": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    },
+                    {
+                        "tag": "p",
+                        "class": "type",
+                        "index": 0,
+                    }
+                ],
+                "tag": "a",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "summary": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    }
+                ],
+                "tag": "p",
+                "class": "type",
+                "index": 1,
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "replace",
+                        "source": ",",
+                        "with": ""
+                    },
+                    {
+                        "action": "replace",
+                        "source": "Plot Summary:",
+                        "with": ""
+                    },
+                    {
+                        "action": "replace",
+                        "source": "\r\n",
+                        "with": ""
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "genre": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    },
+                    {
+                        "tag": "p",
+                        "class": "type",
+                        "index": 2,
+                    }
+                ],
+                "type": "list",
+                "tag": "a",
+                "class": "",
+                "settings": [
+                    {
+                        "action": "getText"
+                    }, 
+                    {
+                        "action": "replace", 
+                        "source": ",", 
+                        "with": ""
+                    }, 
+                    {
+                        "action": "trim", 
+                        "status": True
+                    }
+                ]
+            },
+            "other_names": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    }
+                ],
+                "tag": "p",
+                "class": "type",
+                "index": 5,
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "replace",
+                        "source": "Other name:",
+                        "with": ""
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "status": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    }
+                ],
+                "tag": "p",
+                "class": "type",
+                "index": 4,
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "replace",
+                        "source": "Status: \n",
+                        "with": ""
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "released_date": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "anime_info_body_bg"
+                    }
+                ],
+                "tag": "p",
+                "class": "type",
+                "index": 3,
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "replace",
+                        "source": "Released:",
+                        "with": ""
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            }
+            
         },
         "watch_ep_section": {
 
@@ -138,7 +318,145 @@ configs = {
             ]
         },
         "anime_details_section": {
-
+            "path": "anime",
+            "params": [],
+            "image": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "ll",
+                        "id": "l"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "info-l"
+                    },
+                    {
+                        "tag": "figure",
+                        "class": "i"
+                    }
+                ],
+                "tag": "img",
+                "class": "",
+                "attribute": "data-src"
+            },
+            "title": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "info-t"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "cn"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "ti"
+                    },
+                    {
+                        "tag": "div",
+                        "class": ""
+                    },
+                    {
+                        "tag": "h2",
+                        "class": ""
+                    }
+                ],
+                "tag": "i",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "summary": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "info-r"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "tx"
+                    }
+                ],
+                "tag": "p",
+                "class": "",
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "replace",
+                        "source": "\"",
+                        "with": ""
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "genre": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "info-r"
+                    },
+                    {
+                        "tag": "ul",
+                        "class": "gn"
+                    }
+                ],
+                "type": "list",
+                "tag": "a",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "other_names": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "info-t"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "cn"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "ti"
+                    },
+                    {
+                        "tag": "ul",
+                        "class": ""
+                    }
+                ],
+                "type": "list",
+                "tag": "li",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "status": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "st c-e"
+                    }
+                ],
+                "tag": "span",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "rating": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "rnk"
+                    }
+                ],
+                "tag": "div",
+                "class": "ra",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            }
         },
         "watch_ep_section": {
 
@@ -209,6 +527,169 @@ configs = {
                     "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
                 }
             ]
+        },
+        "anime_details_section": {
+            "path": "online",
+            "params": [],
+            "image": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "sheader"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "poster"
+                    }
+                ],
+                "tag": "img",
+                "class": "lazy",
+                "attribute": "data-src"
+            },
+            "title": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "sheader"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "data"
+                    }
+                ],
+                "tag": "h1",
+                "class": "",
+                "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "summary": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "sbox fixidtab",
+                        "id": "info"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "wp-content"
+                    }
+                ],
+                "tag": "p",
+                "class": "",
+                "index": 0,
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "replace",
+                        "source": "\"",
+                        "with": ""
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "genre": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "sheader"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "data"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "sgeneros"
+                    }
+                ],
+                "type": "list",
+                "tag": "a",
+                "class": "",
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "other_names": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "sbox fixidtab",
+                        "id": "info"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "custom_fields",
+                        "index": 0,
+                    }   
+                ],
+                "tag": "span",
+                "class": "valor",
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "rating": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "starstruck-rating"
+                    }
+                ],
+                "tag": "span",
+                "class": "dt_rating_vgs",
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            },
+            "released_date": {
+                "containers": [
+                    {
+                        "tag": "div",
+                        "class": "sheader"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "data"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "extra"
+                    }
+                ],
+                "tag": "span",
+                "class": "date",
+                "settings": [
+                    {
+                        "action": "getText"
+                    },
+                    {
+                        "action": "trim",
+                        "status": True
+                    }
+                ]
+            }
         }
     }
 }
@@ -220,11 +701,14 @@ def exec_settings_in_tag(data_in, settings = []):
     for setting in settings:
         if setting["action"] == "getText":
             data_in = data_in.getText()
-        if setting["action"] == "trim":
+        elif setting["action"] == "trim":
             data_in = data_in.strip()
         elif setting["action"] == "split":
             data_in = data_in.split(setting["separator"])
-            data_in = data_in[setting["select"]]
+            if "select" in setting:
+                data_in = data_in[setting["select"]]
+        elif setting["action"] == "replace":
+            data_in = data_in.replace(setting["source"], setting["with"])
     
     return data_in
 
@@ -241,6 +725,44 @@ def dig_tag(root, elements):
         data = exec_settings_in_tag(data, element["settings"])
     
     return data
+
+
+def iterate_over_containers(sp, containers):
+    dst_tag = sp
+    for c in containers:
+        tag = c["tag"]
+        tag_class = c["class"] if "class" in c else ""
+        id_class = c["id"] if "id" in c else ""
+        if "index" in c:
+            idx = c["index"]
+            dst_tag = dst_tag.find_all(
+                tag, {"class": tag_class, "id": id_class})[idx]
+        else:
+            dst_tag = dst_tag.find(tag, {"class": tag_class, "id": id_class})
+
+    return dst_tag
+
+
+def parse_element(e_container, a_item, e_tag, e_class, e_id):
+    _element = None
+
+    if "type" in a_item:
+        # Es un item de tipo lista, iterar sobre sus elementos aplicando las configuraciones
+        if a_item["type"] == "list":
+            _elements = e_container.find_all(e_tag, {"class": e_class, "id": e_id})
+            _element = []
+            for _e in _elements:
+                _element.append(exec_settings_in_tag(_e, a_item["settings"]))
+    else:
+        _element = e_container.find_all(e_tag, {"class": e_class, "id": e_id})
+        idx = a_item["index"] if "index" in a_item else 0
+        _element = _element[idx]
+        if "attribute" in a_item:
+            _element = _element[a_item["attribute"]]
+        if "settings" in a_item:
+            _element = exec_settings_in_tag(_element, a_item["settings"])
+
+    return _element
 
 
 #has_next_req = requests.get(url, params={"page": page + 1})
@@ -299,7 +821,6 @@ def get_popular_list(page: str, request: Request):
         print(ex)
         return JSONResponse({"error": "Ha ocurrido un error al obtener el contenido"}, 500)
 
-
 @router.get("/{page}/latest")
 def get_latest_releases(page: str, request: Request):
     if page not in configs:
@@ -350,6 +871,55 @@ def get_latest_releases(page: str, request: Request):
         print(ex)
         return JSONResponse({"error": "Ha ocurrido un error al obtener el contenido"}, 500)
 
+enabled_tags = ["image", "title", "type",
+                "rating", "summary", "genre", 
+                "other_names", "next_ep_date", 
+                "status", "released_date"]
+
+
+@router.get("/{page}/details/{id}")
+def get_anime_details(page: str, id: str, request: Request):
+    if page not in configs:
+        return JSONResponse({"error": "El servicio aun no ha sido agregado, por favor intenta con otro"}, 400)
+
+    site_config = configs[page]
+    base_url = site_config["base_url"]
+    details_config = site_config["anime_details_section"]
+    url = "{}/{}/{}".format(base_url, details_config["path"], id)
+
+    query_params = {}
+    if "params" in details_config:
+        for param in details_config["params"]:
+            if param in request.query_params._dict:
+                query_params[param]: request.query_params.get(param)
+
+    site_res = requests.get(url, params=query_params)
+
+    try:
+        site_soup = bs(site_res.text, "html.parser")
+        out = {}
+        for key in list(details_config.keys()):
+            if key in enabled_tags:
+                print("Element: {}".format(key))
+                actual_item = details_config[key]
+                # Empezar a manipular
+                # primero se debe de iterar sobre "containers"
+                element_container = iterate_over_containers(site_soup, actual_item["containers"])
+                e_tag = actual_item["tag"]
+                e_class = actual_item["class"] if "class" in actual_item else ""
+                e_id = actual_item["id"] if "id" in actual_item else ""
+                # Luego, con base al tipo de elemento, obtener los datos
+                _element = parse_element(element_container, actual_item, e_tag, e_class, e_id)
+                # Se crea la entrada "key" con el valor obtenido
+                out[key] = _element
+                    
+
+        return JSONResponse(out, 200)
+
+    except Exception as ex:
+        print(ex)
+        return JSONResponse({"error": "Ha ocurrido un error al obtener el contenido"}, 500)
+    
 
 @router.get("/details/{id}")
 def anime_info(id: str):
