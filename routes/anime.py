@@ -3,6 +3,8 @@ from fastapi import APIRouter, Request
 from bs4 import BeautifulSoup as bs
 from starlette.responses import JSONResponse
 import requests
+import js2py
+from requests_html import HTMLSession, AsyncHTMLSession
 
 ANIME_BASE_URL = "https://gogoanime.lu"
 
@@ -264,8 +266,30 @@ configs = {
                         "status": True
                     }
                 ]
+            },
+            "episodes": {
+                "type": "paginated",
+                "containers": [
+                    {
+                        "tag": "ul",
+                        "id": "episode_page"
+                    }
+                ],
+                "list_container": {
+                    "tag": "li",
+                    "class": ""
+                },
+                "title": "EP {number}",
+                "link": "{id}-episode-{number}",
+                "start": {
+                    "tag": "a",
+                    "attribute": "ep_start"
+                },
+                "end": {
+                    "tag": "a",
+                    "attribute": "ep_end"
+                }
             }
-            
         },
         "watch_ep_section": {
 
@@ -456,6 +480,28 @@ configs = {
                 "tag": "div",
                 "class": "ra",
                 "settings": [{"action": "getText"}, {"action": "trim", "status": True}]
+            },
+            "episodes": {
+                "type": "dynamic",
+                "containers": [
+                    {
+                        "tag": "section",
+                        "class": "cn",
+                    },
+                    {
+                        "tag": "div",
+                        "class": "rr",
+                        "id": "r"
+                    },
+                    {
+                        "tag": "div",
+                        "class": "info-r episodes"
+                    }
+                ],
+                "tag": "script",
+                "class": "",
+                "id": "",
+                "image_template": "{base_url}/cdn/episodes/"
             }
         },
         "watch_ep_section": {
@@ -726,22 +772,21 @@ def dig_tag(root, elements):
     
     return data
 
-
 def iterate_over_containers(sp, containers):
     dst_tag = sp
     for c in containers:
         tag = c["tag"]
         tag_class = c["class"] if "class" in c else ""
-        id_class = c["id"] if "id" in c else ""
+        tag_id = c["id"] if "id" in c else ""
+        print("Searching {} {} {}".format(tag, tag_class, tag_id))
         if "index" in c:
             idx = c["index"]
             dst_tag = dst_tag.find_all(
-                tag, {"class": tag_class, "id": id_class})[idx]
+                tag, {"class": tag_class, "id": tag_id})[idx]
         else:
-            dst_tag = dst_tag.find(tag, {"class": tag_class, "id": id_class})
+            dst_tag = dst_tag.find(tag, {"class": tag_class, "id": tag_id})
 
     return dst_tag
-
 
 def parse_element(e_container, a_item, e_tag, e_class, e_id):
     _element = None
@@ -764,6 +809,46 @@ def parse_element(e_container, a_item, e_tag, e_class, e_id):
 
     return _element
 
+def perform_replace(source, values ):
+    if "{number}" in source:
+        source = source.replace("{number}", values["number"])
+    if "{id}" in source:
+        source = source.replace("{id}", values["id"])
+    return source
+
+def generate_episodes_data(start, end, config, anime_id):
+    episodes = []
+    for i in range(start, end):
+        title_parsed: str = perform_replace(
+            config["title"], {"number": str(i), "id": anime_id})
+        link_parsed: str = perform_replace(
+            config["link"], {"number": str(i), "id": anime_id})
+
+        episodes.append({
+            "title": title_parsed,
+            "link": link_parsed
+        })
+    return episodes
+
+def parse_episodes_element(config, container, id = ""):
+    episodes = []
+    if config["type"] == "paginated":
+        list_container = config["list_container"]
+        l_tag = list_container["tag"]
+        l_class = list_container["class"] if "class" in list_container else ""
+        l_id = list_container["id"] if "id" in list_container else ""
+        _elements : list = container.find_all(l_tag, { "class": l_class, "id": l_id })
+        _first = _elements[0]
+        _last = _elements[-1]
+        first_ep = int(_first.find(config["start"]["tag"])[config["start"]["attribute"]])
+        if first_ep == 0:
+            first_ep += 1
+        
+        last_ep = int(_last.find(config["end"]["tag"])[config["end"]["attribute"]])
+        
+        episodes = generate_episodes_data(first_ep, last_ep, config, id)
+
+    return episodes
 
 #has_next_req = requests.get(url, params={"page": page + 1})
 #has_next = has_next_req.status_code == 200
@@ -878,7 +963,7 @@ enabled_tags = ["image", "title", "type",
 
 
 @router.get("/{page}/details/{id}")
-def get_anime_details(page: str, id: str, request: Request):
+async def get_anime_details(page: str, id: str, request: Request):
     if page not in configs:
         return JSONResponse({"error": "El servicio aun no ha sido agregado, por favor intenta con otro"}, 400)
 
@@ -894,13 +979,13 @@ def get_anime_details(page: str, id: str, request: Request):
                 query_params[param]: request.query_params.get(param)
 
     site_res = requests.get(url, params=query_params)
-
+    #print(site_res.html.raw_html)
     try:
-        site_soup = bs(site_res.text, "html.parser")
+        site_soup = bs(site_res.content, "html.parser")
         out = {}
         for key in list(details_config.keys()):
+            print("Element: {}".format(key))
             if key in enabled_tags:
-                print("Element: {}".format(key))
                 actual_item = details_config[key]
                 # Empezar a manipular
                 # primero se debe de iterar sobre "containers"
@@ -912,7 +997,23 @@ def get_anime_details(page: str, id: str, request: Request):
                 _element = parse_element(element_container, actual_item, e_tag, e_class, e_id)
                 # Se crea la entrada "key" con el valor obtenido
                 out[key] = _element
+            elif key == "episodes":
+                actual_item = details_config[key]
+                element_container = iterate_over_containers(site_soup, actual_item["containers"])
+                if actual_item["type"] == "dynamic":
+                    print("Re-loading with JS")
+                    asession = AsyncHTMLSession()
+                    site_res = await asession.get(url, params=query_params)
+                    await site_res.html.arender()
+                    asession.close()
+                    site_soup = bs(site_res.html.raw_html, "html.parser")
+                    element_container = iterate_over_containers(site_soup, actual_item["containers"])
                     
+                    
+                print(element_container)
+
+                out["episodes"] = parse_episodes_element(actual_item, element_container, id)
+
 
         return JSONResponse(out, 200)
 
